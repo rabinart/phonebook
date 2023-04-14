@@ -1,0 +1,9 @@
+# Phonebook
+I decided to build this application in Java using only JDK to keep it simple.
+For graphics, I will use the swing library, since JavaFX is no longer part of the JDK and is suitable for more complex tasks. 
+
+The architecture of the application should make possible to expand the application, for example, add new functionality for a phonebook or implement a new user interface. 
+
+So, there will be one class responsible for graphics. The main one, that implements the phonebook functionality. And the bridge between them.
+
+Build tool is Gradle to make easier run source code on other machines just by using gradlew.bat(for Windows) or gradlew(for Linux) in the command line.

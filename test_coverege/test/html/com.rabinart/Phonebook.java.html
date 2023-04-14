@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Phonebook.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GuiPhonebook</a> &gt; <a href="index.source.html" class="el_package">com.rabinart</a> &gt; <span class="el_source">Phonebook.java</span></div><h1>Phonebook.java</h1><pre class="source lang-java linenums">package com.rabinart;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Phonebook implements Serializable {
+    private Set&lt;UserDto&gt; phonebook;
+    private static final String NUMBER_REGEX = &quot;^\\+?[1-9][0-9]{3,14}$&quot;;
+
+
+<span class="fc" id="L13">    public Phonebook(){</span>
+<span class="fc" id="L14">        loadPhoneBook();</span>
+<span class="fc" id="L15">    }</span>
+
+
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private void loadPhoneBook() {
+<span class="fc" id="L21">        File file = setFileLocation();</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if (file.exists()){</span>
+<span class="nc" id="L23">            try (var object = new ObjectInputStream(new FileInputStream(file))){</span>
+<span class="nc" id="L24">                phonebook = (Set&lt;UserDto&gt;) object.readObject();</span>
+<span class="nc" id="L25">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L26">                e.printStackTrace();</span>
+<span class="nc" id="L27">            }</span>
+        }
+<span class="fc" id="L29">        phonebook = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L30">    }</span>
+
+
+    public List&lt;UserDto&gt; findAll(){
+<span class="fc" id="L34">        return new ArrayList&lt;&gt;(phonebook);</span>
+    }
+
+    public List&lt;UserDto&gt; find(String name, String number){
+<span class="fc" id="L38">        return phonebook.stream()</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">                .filter(userDto -&gt; userDto.getName().equals(name) || userDto.getNumber().equals(number))</span>
+<span class="fc" id="L40">                .collect(Collectors.toList());</span>
+    }
+
+    public boolean put(String name, String number){
+<span class="pc bpc" id="L44" title="1 of 4 branches missed.">        if (number.matches(NUMBER_REGEX) &amp;&amp; phonebook.add(new UserDto(name, number))){</span>
+<span class="fc" id="L45">            save();</span>
+<span class="fc" id="L46">            return true;</span>
+        }
+<span class="fc" id="L48">        else return false;</span>
+    }
+
+    public boolean remove(String number){
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (phonebook.remove(new UserDto(&quot;&quot;, number))){</span>
+<span class="fc" id="L53">            save();</span>
+<span class="fc" id="L54">            return true;</span>
+        }
+<span class="fc" id="L56">        return false;</span>
+    }
+
+    private void save(){
+<span class="fc" id="L60">        var file = setFileLocation();</span>
+<span class="fc" id="L61">        try (var outputStream = new ObjectOutputStream(new FileOutputStream(file))){</span>
+<span class="fc" id="L62">            outputStream.writeObject(phonebook);</span>
+<span class="fc" id="L63">            outputStream.flush();</span>
+<span class="nc" id="L64">        } catch (IOException e) {</span>
+<span class="nc" id="L65">            e.printStackTrace();</span>
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">    }</span>
+    private File setFileLocation(){
+        File file;
+        try {
+<span class="fc" id="L71">            getClass().getClassLoader().loadClass(&quot;com.rabinart.PhonebookTest&quot;);</span>
+<span class="fc" id="L72">            file = Path.of(&quot;src&quot;,&quot;test&quot;, &quot;resources&quot;,&quot;phonebook.out&quot;).toFile();</span>
+<span class="nc" id="L73">        }catch (ClassNotFoundException e){</span>
+<span class="nc" id="L74">            file = Path.of(&quot;src&quot;,&quot;main&quot;, &quot;resources&quot;,&quot;phonebook.out&quot;).toFile();</span>
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        return file;</span>
+    }
+
+    public Set&lt;UserDto&gt; getPhonebook() {
+<span class="fc" id="L80">        return phonebook;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

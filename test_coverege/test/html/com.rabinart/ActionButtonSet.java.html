@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ActionButtonSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GuiPhonebook</a> &gt; <a href="index.source.html" class="el_package">com.rabinart</a> &gt; <span class="el_source">ActionButtonSet.java</span></div><h1>ActionButtonSet.java</h1><pre class="source lang-java linenums">package com.rabinart;
+
+import javax.swing.*;
+import java.util.List;
+
+public class ActionButtonSet {
+    private static ActionButtonSet INSTANCE;
+<span class="nc" id="L8">    private final GuiPhonebookAdapter phonebook = GuiPhonebookAdapter.getInstance();</span>
+    private final List&lt;JButton&gt; buttons;
+
+
+    public static ActionButtonSet getInstance(){
+<span class="nc bnc" id="L13" title="All 2 branches missed.">        if (INSTANCE == null)</span>
+<span class="nc" id="L14">            INSTANCE = new ActionButtonSet();</span>
+<span class="nc" id="L15">        return INSTANCE;</span>
+    }
+
+
+<span class="nc" id="L19">    private ActionButtonSet(){</span>
+<span class="nc" id="L20">        buttons = List.of(</span>
+                new JButton(&quot;add&quot;),
+                new JButton(&quot;delete&quot;),
+                new JButton(&quot;find&quot;),
+                new JButton(&quot;list&quot;)
+        );
+<span class="nc" id="L26">        buttons.get(0).addActionListener(e -&gt; phonebook.put());</span>
+<span class="nc" id="L27">        buttons.get(1).addActionListener(e -&gt; phonebook.remove());</span>
+<span class="nc" id="L28">        buttons.get(2).addActionListener(e -&gt; phonebook.find());</span>
+<span class="nc" id="L29">        buttons.get(3).addActionListener(e -&gt; phonebook.list());</span>
+
+<span class="nc" id="L31">    }</span>
+    public List&lt;JButton&gt; getButtons(){
+<span class="nc" id="L33">        return buttons;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

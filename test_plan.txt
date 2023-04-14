@@ -1,0 +1,14 @@
+Scope of testing:
+Phonebook.class
+
+Phonebook test cases:
+    1. Add 5 entries. Expect 5 entries in the phonebook, that also saved in resources directory
+    2. Try to delete not existing number, then add this number and try to delete it again. Expect empty entry set
+    3. Try to add already existing number, expect false
+    4. Enter every possible wrong input in the put() and delete() method
+
+Test directory: src/test/java/com/rabinart
+
+Test Report:
+Each "test" task generates index.html report in Test_report directory. It contains test coverage report.
+For every failed test I would generate a log file with the stacktrace.
